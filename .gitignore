@@ -1,0 +1,26 @@
+# Maven build output
+target/
+
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# VS Code
+.vscode/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Local secrets / env overrides (never commit real passwords)
+.env
+application-local.properties

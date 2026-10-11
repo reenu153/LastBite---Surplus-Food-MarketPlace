@@ -1,4 +1,4 @@
-# TGTG Backend (Spring Boot learning project)
+
 
 A minimal Too Good To Go style backend: stores post discounted "surprise bags", users list the ones still available.
 
@@ -41,33 +41,4 @@ curl -i -X POST localhost:8080/api/products -H 'Content-Type: application/json' 
 curl 'localhost:8080/api/products?category=BAKERY&sort=discountedPrice,asc&size=5'
 ```
 
-## How a request flows
 
-```
-HTTP -> ProductController -> ProductService -> ProductRepository -> Postgres
-         (DTO + @Valid)       (business rules)   (Spring Data JPA)
-errors  -> GlobalExceptionHandler -> ProblemDetail JSON (400 / 404)
-```
-
-Package-by-feature: everything for products lives in `product/`, shared stuff in `common/`.
-Search the code for `LEARN:` (concept explanations) and `ADAPT:` (where to extend).
-
-## Interview talking points this project covers
-
-- **IoC / DI**: Spring creates beans (`@Service`, `@RestController`, `@Bean`) and injects them via constructors.
-- **Layering**: controller (HTTP), service (rules, `@Transactional`), repository (data).
-- **DTO vs Entity**: records for request/response, so the DB model never leaks into the API.
-- **Validation**: annotations on the DTO + cross-field rules in the service.
-- **Spring Data**: derived queries from method names, `Pageable` for paging and sorting.
-- **Error handling**: `@RestControllerAdvice` + RFC 7807 `ProblemDetail`.
-- **Testing**: Mockito unit test (fast, no Spring) vs `@SpringBootTest` + MockMvc (full stack).
-- **Testable time**: inject a `Clock` instead of calling `now()` directly.
-
-## Next steps to practise (likely follow-up questions)
-
-1. Add a `Store` entity with `@ManyToOne` from Product (watch for the N+1 problem, fix with `@EntityGraph` or `JOIN FETCH`).
-2. Add `POST /api/products/{id}/reservations` that decrements stock. Discuss race conditions: `@Version` optimistic locking.
-3. Add Flyway migrations (`ddl-auto=validate`) and Testcontainers so tests also run on Postgres.
-4. Add Spring Security with JWT so only store accounts can POST.
-5. Add `PUT`/`DELETE` endpoints and a `@WebMvcTest` slice test.
-# LastBite---Surplus-Food-MarketPlace
